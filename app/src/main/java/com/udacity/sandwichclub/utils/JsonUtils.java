@@ -14,6 +14,14 @@ import java.util.ArrayList;
 
 public class JsonUtils {
 
+    public static final String KEY_NAME = "name";
+    public static final String KEY_MAIN_NAME = "mainName";
+    public static final String KEY_ALSO_KNOWN_AS = "alsoKnownAs";
+    public static final String KEY_INGREDIENTS = "ingredients";
+    public static final String KEY_PLACE_OF_ORIGIN = "placeOfOrigin";
+    public static final String KEY_DESCRIPTION = "description";
+    public static final String KEY_IMAGE = "image";
+
     public static Sandwich parseSandwichJson(String json) {
 
         Sandwich sandwich = new Sandwich();
@@ -21,9 +29,9 @@ public class JsonUtils {
         try {
             JSONObject sandwichJSON = new JSONObject(json);
 
-            JSONObject name = sandwichJSON.getJSONObject("name");
+            JSONObject name = sandwichJSON.getJSONObject(KEY_NAME);
 
-            JSONArray alsoKnownAsArray = name.getJSONArray("alsoKnownAs");
+            JSONArray alsoKnownAsArray = name.getJSONArray(KEY_ALSO_KNOWN_AS);
             ArrayList<String> alsoKnownAsList = new ArrayList<String>();
             if (alsoKnownAsArray != null) {
                 for (int i = 0; i < alsoKnownAsArray.length(); i++) {
@@ -31,7 +39,7 @@ public class JsonUtils {
                 }
             }
 
-            JSONArray ingredientsArray = sandwichJSON.getJSONArray("ingredients");
+            JSONArray ingredientsArray = sandwichJSON.getJSONArray(KEY_INGREDIENTS);
             ArrayList<String> ingredientsList = new ArrayList<String>();
             if (ingredientsArray != null) {
                 for (int i = 0; i < ingredientsArray.length(); i ++) {
@@ -39,11 +47,11 @@ public class JsonUtils {
                 }
             }
 
-            sandwich.setMainName(name.getString("mainName"));
+            sandwich.setMainName(name.getString(KEY_MAIN_NAME));
             sandwich.setAlsoKnownAs(alsoKnownAsList);
-            sandwich.setPlaceOfOrigin(sandwichJSON.getString("placeOfOrigin"));
-            sandwich.setDescription(sandwichJSON.getString("description"));
-            sandwich.setImage(sandwichJSON.getString("image"));
+            sandwich.setPlaceOfOrigin(sandwichJSON.getString(KEY_PLACE_OF_ORIGIN));
+            sandwich.setDescription(sandwichJSON.getString(KEY_DESCRIPTION));
+            sandwich.setImage(sandwichJSON.getString(KEY_IMAGE));
             sandwich.setIngredients(ingredientsList);
 
 

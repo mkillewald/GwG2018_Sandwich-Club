@@ -12,6 +12,8 @@ import com.squareup.picasso.Picasso;
 import com.udacity.sandwichclub.model.Sandwich;
 import com.udacity.sandwichclub.utils.JsonUtils;
 
+import java.util.List;
+
 public class DetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_POSITION = "extra_position";
@@ -48,6 +50,7 @@ public class DetailActivity extends AppCompatActivity {
         populateUI(sandwich);
         Picasso.with(this)
                 .load(sandwich.getImage())
+                .placeholder(R.mipmap.ic_launcher)
                 .into(ingredientsIv);
 
         setTitle(sandwich.getMainName());
@@ -64,13 +67,23 @@ public class DetailActivity extends AppCompatActivity {
         TextView placeOfOrigin = findViewById(R.id.origin_tv);
         TextView description = findViewById(R.id.description_tv);
 
-        String knownAsStr = sandwich.getAlsoKnownAs().toString();
-        alsoKnownAs.setText(knownAsStr.substring(1, knownAsStr.length() - 1));
-
-        String ingredientsStr = sandwich.getIngredients().toString();
-        ingredients.setText(ingredientsStr.substring(1, ingredientsStr.length() - 1));
-
+        alsoKnownAs.setText(getFormattedString(sandwich.getAlsoKnownAs()));
+        ingredients.setText(getFormattedString(sandwich.getIngredients()));
         placeOfOrigin.setText(sandwich.getPlaceOfOrigin());
         description.setText(sandwich.getDescription());
+    }
+
+    private String getFormattedString(List<String> list) {
+        StringBuilder stringBuilder = new StringBuilder();
+        int size = list.size();
+        if (size > 0) {
+            for (int i = 0; i < size; i++) {
+                stringBuilder.append(list.get(i).trim());
+                if (i != size - 1) {
+                    stringBuilder.append("\n");
+                }
+            }
+        }
+        return stringBuilder.toString();
     }
 }
